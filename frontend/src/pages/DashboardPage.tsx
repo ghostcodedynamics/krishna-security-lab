@@ -109,9 +109,11 @@ export default function DashboardPage() {
                     Enter World
                   </Button>
                 </Link>
-                <Button variant="secondary" size="md" disabled>
-                  Challenges (soon)
-                </Button>
+                <Link to="/challenges">
+                  <Button variant="secondary" size="md">
+                    View Challenges
+                  </Button>
+                </Link>
               </div>
             </Card>
           </div>

@@ -8,11 +8,12 @@ import { env } from './config/env.js';
 import { logger } from './config/logger.js';
 import { healthRouter } from './routes/health.js';
 import { authRouter } from './routes/auth.js';
+import { challengesRouter } from './routes/challenges.js';
 import { connectDatabase } from './config/database.js';
+import { seedChallenges } from './seeds/challenges.js';
 
 const app = express();
 
-// Security middleware
 app.use(helmet());
 app.use(
   cors({
@@ -32,16 +33,14 @@ app.use(mongoSanitize());
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
-// Routes
 app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/challenges', challengesRouter);
 
-// 404
 app.use((_req, res) => {
   res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Resource not found' } });
 });
 
-// Global error handler
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   logger.error(err);
   res.status(500).json({
@@ -51,11 +50,11 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
 });
 
 async function start() {
-  // MongoDB connection is optional at this stage (health works without it)
   try {
     await connectDatabase();
-  } catch {
-    logger.warn('MongoDB not available — continuing without DB for Phase 1');
+    await seedChallenges();
+  } catch (err) {
+    logger.warn({ err }, 'MongoDB not available — continuing without DB');
   }
 
   app.listen(env.PORT, () => {
