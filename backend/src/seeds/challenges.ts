@@ -84,6 +84,60 @@ const CHALLENGES = [
     isLocked: false,
     knowledgeSlug: 'xss',
   },
+  {
+    slug: 'idor',
+    title: 'Insecure Direct Object Reference',
+    difficulty: 'medium' as const,
+    category: 'idor' as const,
+    description:
+      'Resources are fetched by id without ownership checks. Access another user\'s data and find the flag.',
+    learningObjective:
+      'Understand IDOR, horizontal privilege escalation, and server-side authorization checks.',
+    targetApplication: 'http://localhost:4004',
+    hints: [
+      { order: 1, text: 'You start as user id 1. What happens if you request /users/3?', xpCost: 0 },
+      { order: 2, text: 'Try /orders/:id and /profile/:id with different numbers.', xpCost: 25 },
+      { order: 3, text: 'Admin profile embeds the flag in a secret field.', xpCost: 50 },
+    ],
+    flag: 'KSL{idor_horizontal_privilege_escalation}',
+    vulnerableEndpoint: 'GET /users/:id, /orders/:id, /profile/:id',
+    expectedBehavior: 'Only the resource owner (or authorized role) may access the object.',
+    secureBehavior: 'Authenticate, then authorize ownership or RBAC on every object access.',
+    solutionExplanation:
+      'Changing the id parameter accessed other users\' records because the server never checked that the requester owned the resource. User 3 contained the flag.',
+    remediation:
+      'After authentication, verify resource.userId === currentUser.id (or admin role). Use opaque ids carefully; never trust client-supplied ids alone.',
+    order: 4,
+    isLocked: false,
+    knowledgeSlug: 'idor',
+  },
+  {
+    slug: 'jwt-security',
+    title: 'JWT Security',
+    difficulty: 'hard' as const,
+    category: 'jwt' as const,
+    description:
+      'The JWT lab uses a weak HMAC secret and accepts alg:none. Forge an admin token and retrieve the flag.',
+    learningObjective:
+      'Understand JWT structure, algorithm confusion / none attacks, secret strength, and secure verification.',
+    targetApplication: 'http://localhost:4005',
+    hints: [
+      { order: 1, text: 'Decode the JWT header and payload (base64url). What algorithm is used?', xpCost: 0 },
+      { order: 2, text: 'Some libraries historically accepted alg none. The lab intentionally does.', xpCost: 25 },
+      { order: 3, text: 'Forge payload role=admin with alg none, or sign with the weak secret "secret".', xpCost: 50 },
+    ],
+    flag: 'KSL{jwt_none_alg_and_weak_secret}',
+    vulnerableEndpoint: 'GET /admin',
+    expectedBehavior: 'Only properly signed tokens with allowed algorithms and strong secrets should verify.',
+    secureBehavior: 'Explicit algorithms whitelist, strong secrets, never trust alg none, short expiry.',
+    solutionExplanation:
+      'Either forged HS256 with secret "secret" and role admin, or sent alg none with role admin. Both granted /admin and the flag.',
+    remediation:
+      'Use strong secrets or asymmetric keys; pass algorithms explicitly to verify; reject none; short TTL + refresh rotation.',
+    order: 5,
+    isLocked: false,
+    knowledgeSlug: 'jwt-security',
+  },
 ];
 
 export async function seedChallenges(): Promise<void> {
