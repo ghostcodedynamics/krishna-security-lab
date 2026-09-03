@@ -1,0 +1,57 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: ksl-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - ksl-network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ksl-backend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      MONGODB_URI: mongodb://mongodb:27017/krishna-security-lab
+      JWT_ACCESS_SECRET: dev-access-secret-change-me-in-production-32chars
+      JWT_REFRESH_SECRET: dev-refresh-secret-change-me-in-production-32ch
+      CORS_ORIGIN: http://localhost:5173
+    depends_on:
+      - mongodb
+    networks:
+      - ksl-network
+    restart: unless-stopped
+    volumes:
+      - ./backend/src:/app/src
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ksl-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:3000
+    depends_on:
+      - backend
+    networks:
+      - ksl-network
+    restart: unless-stopped
+    volumes:
+      - ./frontend/src:/app/src
+
+networks:
+  ksl-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
