@@ -1,11 +1,11 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui';
 import { Shield } from 'lucide-react';
+import { Button } from '@/components/ui';
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-bg-primary relative overflow-hidden flex flex-col items-center justify-center px-4">
-      {/* Background layers */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-bg-secondary via-bg-primary to-bg-primary opacity-90" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-accent/5 rounded-full blur-3xl pointer-events-none" />
@@ -37,12 +37,16 @@ export default function LandingPage() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" variant="primary">
-            ENTER LAB
-          </Button>
-          <Button size="lg" variant="secondary">
-            EXPLORE CHALLENGES
-          </Button>
+          <Link to="/register">
+            <Button size="lg" variant="primary">
+              ENTER LAB
+            </Button>
+          </Link>
+          <Link to="/login">
+            <Button size="lg" variant="secondary">
+              SIGN IN
+            </Button>
+          </Link>
         </div>
       </motion.div>
 

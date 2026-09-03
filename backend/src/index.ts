@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
 import { logger } from './config/logger.js';
 import { healthRouter } from './routes/health.js';
+import { authRouter } from './routes/auth.js';
 import { connectDatabase } from './config/database.js';
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/v1/health', healthRouter);
+app.use('/api/v1/auth', authRouter);
 
 // 404
 app.use((_req, res) => {
