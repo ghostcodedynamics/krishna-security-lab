@@ -8,8 +8,9 @@ An immersive 3D cybersecurity learning and CTF platform. Learners enter a virtua
 
 ## Current Status
 
-**Phase 0 — Planning: Complete**  
-**Phase 1 — Project Foundation: In Progress**
+**Phase 0–13: Core platform + 7 vulnerability labs + Final Boss challenge**
+
+Labs: auth :4001 · nosql :4002 · xss :4003 · idor :4004 · jwt :4005 · api :4006 · rbac :4007
 
 ---
 

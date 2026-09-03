@@ -165,6 +165,58 @@ const CHALLENGES = [
     isLocked: false,
     knowledgeSlug: 'api-security',
   },
+  {
+    slug: 'rbac',
+    title: 'Broken Role-Based Access Control',
+    difficulty: 'medium' as const,
+    category: 'rbac' as const,
+    description:
+      'The RBAC lab trusts a client-supplied role header. Escalate privileges and read the admin flag.',
+    learningObjective:
+      'Understand RBAC, why roles must be server-side, and permission checks on every sensitive route.',
+    targetApplication: 'http://localhost:4007',
+    hints: [
+      { order: 1, text: 'Look at the X-Role header the lab UI sends.', xpCost: 0 },
+      { order: 2, text: 'Can you call /admin/flag as admin without logging in?', xpCost: 25 },
+      { order: 3, text: 'Any client can set X-Role: admin — that is the bug.', xpCost: 50 },
+    ],
+    flag: 'KSL{rbac_client_role_not_trusted}',
+    vulnerableEndpoint: 'GET /admin/flag (X-Role header)',
+    expectedBehavior: 'Role and permissions derived only from authenticated server-side identity.',
+    secureBehavior: 'JWT/session role claims; middleware permission matrix; deny by default.',
+    solutionExplanation:
+      'The server trusted X-Role from the client. Setting X-Role to admin granted read:flag and returned the flag.',
+    remediation:
+      'Bind role to the authenticated user record; enforce permissions in middleware; ignore client role fields.',
+    order: 7,
+    isLocked: false,
+    knowledgeSlug: 'rbac',
+  },
+  {
+    slug: 'final-boss',
+    title: 'Final Security Core',
+    difficulty: 'boss' as const,
+    category: 'final' as const,
+    description:
+      'Combine what you learned. This meta-challenge unlocks when you have completed the core labs. Submit the composite flag after finishing Auth, Injection, XSS, IDOR, JWT, API, and RBAC.',
+    learningObjective:
+      'Integrate attack and defense knowledge across the full stack and verify secure defaults.',
+    targetApplication: 'http://localhost:3000',
+    hints: [
+      { order: 1, text: 'Complete the previous challenges first — the boss flag is a synthesis.', xpCost: 0 },
+      { order: 2, text: 'The flag format celebrates full completion of the core path.', xpCost: 0 },
+    ],
+    flag: 'KSL{cyber_guardian_security_core_unlocked}',
+    vulnerableEndpoint: 'N/A — meta challenge',
+    expectedBehavior: 'Learner demonstrates end-to-end understanding.',
+    secureBehavior: 'Platform remains hardened; labs stay isolated.',
+    solutionExplanation:
+      'You completed the core vulnerability path. The Security Core is unlocked. Continue hardening labs and the main platform.',
+    remediation: 'Keep labs isolated; never deploy vulnerable labs publicly; maintain platform security controls.',
+    order: 99,
+    isLocked: false,
+    knowledgeSlug: 'final-boss',
+  },
 ];
 
 export async function seedChallenges(): Promise<void> {
