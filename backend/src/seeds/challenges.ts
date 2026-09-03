@@ -57,6 +57,33 @@ const CHALLENGES = [
     isLocked: false,
     knowledgeSlug: 'nosql-injection',
   },
+  {
+    slug: 'xss-reflected-stored',
+    title: 'Cross-Site Scripting (XSS)',
+    difficulty: 'medium' as const,
+    category: 'xss' as const,
+    description:
+      'The XSS lab has reflected search and a stored guestbook. Trigger XSS in the controlled lab and capture the flag.',
+    learningObjective:
+      'Understand reflected vs stored XSS, output encoding, sanitization, and CSP basics.',
+    targetApplication: 'http://localhost:4003',
+    hints: [
+      { order: 1, text: 'Reflected: the search query is written into the page. What if it contains HTML?', xpCost: 0 },
+      { order: 2, text: 'Stored: comments are saved and rendered later for every visitor.', xpCost: 25 },
+      { order: 3, text: 'In the lab, payloads can call window.__showFlag() to reveal the flag.', xpCost: 50 },
+    ],
+    flag: 'KSL{xss_reflected_and_stored_mastered}',
+    vulnerableEndpoint: 'GET /?q=  and  POST /comment',
+    expectedBehavior: 'User input must not execute as script in the browser.',
+    secureBehavior: 'Context-aware output encoding, sanitize HTML if needed, deploy CSP.',
+    solutionExplanation:
+      'Reflected XSS used the q parameter; stored XSS used the guestbook. Both executed script because output was not encoded. Calling __showFlag() (or reading lab docs) yields the flag.',
+    remediation:
+      'Encode output for HTML context; use safe frameworks defaults; sanitize rich text; add Content-Security-Policy.',
+    order: 3,
+    isLocked: false,
+    knowledgeSlug: 'xss',
+  },
 ];
 
 export async function seedChallenges(): Promise<void> {
