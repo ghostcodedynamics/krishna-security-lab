@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui';
+import { Shield } from 'lucide-react';
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-bg-primary relative overflow-hidden flex flex-col items-center justify-center px-4">
-      {/* Subtle background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-bg-secondary via-bg-primary to-bg-primary opacity-80" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-accent/5 rounded-full blur-3xl" />
+      {/* Background layers */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-bg-secondary via-bg-primary to-bg-primary opacity-90" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-accent/5 rounded-full blur-3xl pointer-events-none" />
 
       <motion.div
         className="relative z-10 text-center max-w-3xl"
@@ -14,9 +16,10 @@ export default function LandingPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <p className="text-gold-light/80 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+        <div className="inline-flex items-center gap-2 text-gold-light/80 text-sm tracking-[0.25em] uppercase mb-6 font-medium">
+          <Shield className="w-4 h-4" />
           Krishna Security Lab
-        </p>
+        </div>
 
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-50 mb-6 leading-tight">
           ENTER THE{' '}
@@ -34,25 +37,17 @@ export default function LandingPage() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            className="px-8 py-3.5 bg-gold text-bg-primary font-semibold rounded-lg
-                       hover:bg-gold-light transition-colors shadow-gold
-                       focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-bg-primary"
-          >
+          <Button size="lg" variant="primary">
             ENTER LAB
-          </button>
-          <button
-            className="px-8 py-3.5 border border-slate-600 text-slate-200 font-medium rounded-lg
-                       hover:border-gold/50 hover:text-gold-light transition-colors
-                       focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-bg-primary"
-          >
+          </Button>
+          <Button size="lg" variant="secondary">
             EXPLORE CHALLENGES
-          </button>
+          </Button>
         </div>
       </motion.div>
 
       <p className="absolute bottom-6 text-slate-600 text-xs tracking-wider">
-        Phase 1 · Foundation in progress
+        Learn Security · Break It · Fix It
       </p>
     </div>
   );

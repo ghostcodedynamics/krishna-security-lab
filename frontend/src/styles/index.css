@@ -5,8 +5,12 @@
 :root {
   --bg-primary: #05070f;
   --bg-secondary: #0a0e1a;
+  --bg-elevated: #111827;
   --accent-gold: #d4af37;
+  --accent-gold-light: #f0c75e;
   --accent-cyan: #22d3ee;
+  --accent-emerald: #34d399;
+  --accent-rose: #fb7185;
 }
 
 html {
@@ -18,6 +22,7 @@ body {
   min-height: 100vh;
   background-color: var(--bg-primary);
   color: #f1f5f9;
+  font-family: Inter, system-ui, sans-serif;
 }
 
 /* Respect reduced motion */
@@ -36,4 +41,20 @@ body {
   .glass {
     @apply bg-bg-secondary/60 backdrop-blur-md border border-slate-700/40;
   }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
 }
