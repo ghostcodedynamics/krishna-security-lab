@@ -138,6 +138,33 @@ const CHALLENGES = [
     isLocked: false,
     knowledgeSlug: 'jwt-security',
   },
+  {
+    slug: 'api-security',
+    title: 'API Security Misconfigurations',
+    difficulty: 'medium' as const,
+    category: 'api' as const,
+    description:
+      'The API lab has mass assignment, excessive data exposure, weak CORS, and missing controls. Escalate to admin and capture the flag.',
+    learningObjective:
+      'Recognize mass assignment, oversharing in JSON responses, CORS pitfalls, rate limiting, and security headers.',
+    targetApplication: 'http://localhost:4006',
+    hints: [
+      { order: 1, text: 'GET /api/profile returns more fields than a client needs. Look closely.', xpCost: 0 },
+      { order: 2, text: 'PATCH /api/profile accepts any field — including isAdmin or role.', xpCost: 25 },
+      { order: 3, text: 'After becoming admin, call GET /api/admin/flag.', xpCost: 50 },
+    ],
+    flag: 'KSL{api_mass_assignment_and_exposure}',
+    vulnerableEndpoint: 'PATCH /api/profile, GET /api/admin/flag',
+    expectedBehavior: 'Only allowlisted fields updatable; responses omit secrets; CORS restricted; rate limits + headers present.',
+    secureBehavior: 'DTOs / Zod pick lists, response serializers, Helmet, CORS allowlist, rate limiting.',
+    solutionExplanation:
+      'Mass assignment set isAdmin true. Admin endpoint then returned the flag. Profile also leaked sensitive fields.',
+    remediation:
+      'Whitelist updatable fields; never bind raw body to models; strip sensitive fields from responses; Helmet + strict CORS + rate limits.',
+    order: 6,
+    isLocked: false,
+    knowledgeSlug: 'api-security',
+  },
 ];
 
 export async function seedChallenges(): Promise<void> {
