@@ -114,6 +114,11 @@ export default function DashboardPage() {
                     View Challenges
                   </Button>
                 </Link>
+                <Link to="/knowledge">
+                  <Button variant="ghost" size="md">
+                    Knowledge
+                  </Button>
+                </Link>
               </div>
             </Card>
           </div>

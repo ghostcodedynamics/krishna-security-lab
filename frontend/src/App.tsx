@@ -8,6 +8,8 @@ import DashboardPage from './pages/DashboardPage';
 import WorldPage from './pages/WorldPage';
 import ChallengesPage from './pages/ChallengesPage';
 import ChallengeDetailPage from './pages/ChallengeDetailPage';
+import KnowledgePage from './pages/KnowledgePage';
+import KnowledgeArticlePage from './pages/KnowledgeArticlePage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -43,6 +45,8 @@ function App() {
       <Route path="/world" element={<ProtectedRoute><WorldPage /></ProtectedRoute>} />
       <Route path="/challenges" element={<ProtectedRoute><ChallengesPage /></ProtectedRoute>} />
       <Route path="/challenges/:id" element={<ProtectedRoute><ChallengeDetailPage /></ProtectedRoute>} />
+      <Route path="/knowledge" element={<ProtectedRoute><KnowledgePage /></ProtectedRoute>} />
+      <Route path="/knowledge/:slug" element={<ProtectedRoute><KnowledgeArticlePage /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

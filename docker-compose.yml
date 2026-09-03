@@ -49,8 +49,102 @@ services:
     volumes:
       - ./frontend/src:/app/src
 
+  # --- Intentionally vulnerable labs (isolated; do not expose publicly) ---
+  lab-auth:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./labs/auth:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "4001:4001"
+    networks:
+      - ksl-labs
+    profiles:
+      - labs
+
+  lab-nosql:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./labs/nosql-injection:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "4002:4002"
+    networks:
+      - ksl-labs
+    profiles:
+      - labs
+
+  lab-xss:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./labs/xss:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "4003:4003"
+    networks:
+      - ksl-labs
+    profiles:
+      - labs
+
+  lab-idor:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./labs/idor:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "4004:4004"
+    networks:
+      - ksl-labs
+    profiles:
+      - labs
+
+  lab-jwt:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./labs/jwt:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "4005:4005"
+    networks:
+      - ksl-labs
+    profiles:
+      - labs
+
+  lab-api:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./labs/api-security:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "4006:4006"
+    networks:
+      - ksl-labs
+    profiles:
+      - labs
+
+  lab-rbac:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./labs/rbac:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "4007:4007"
+    networks:
+      - ksl-labs
+    profiles:
+      - labs
+
 networks:
   ksl-network:
+    driver: bridge
+  ksl-labs:
     driver: bridge
 
 volumes:

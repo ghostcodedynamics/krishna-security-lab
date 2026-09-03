@@ -83,7 +83,14 @@ function SceneLights() {
   );
 }
 
-export default function SecurityTempleScene() {
+export default function SecurityTempleScene({
+  unlockedCategories = ['authentication'],
+}: {
+  unlockedCategories?: string[];
+}) {
+  // unlockedCategories reserved for future chamber glow intensity
+  void unlockedCategories;
+
   const cameraPos = useMemo(() => [0, 4, 10] as [number, number, number], []);
 
   return (

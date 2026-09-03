@@ -2,59 +2,55 @@
 
 **Learn Security. Break It. Fix It.**
 
-An immersive 3D cybersecurity learning and CTF platform. Learners enter a virtual security environment, discover vulnerabilities in intentionally isolated labs, understand root causes, implement fixes, and progress through levels while earning XP and badges.
+Immersive cybersecurity learning platform: React + TypeScript frontend, Express API, MongoDB, Three.js security temple, and **isolated intentionally vulnerable labs**.
 
----
+## Features
 
-## Current Status
+- User auth (Argon2id + JWT access/refresh)
+- Dashboard, XP, levels
+- 3D Security Temple (`/world`)
+- Challenge engine with flags, hints, XP
+- Knowledge Center (theory per vulnerability)
+- 7 educational labs + Final Boss meta-challenge
 
-**Phase 0–13: Core platform + 7 vulnerability labs + Final Boss challenge**
+## Labs (educational only — never expose publicly)
 
-Labs: auth :4001 · nosql :4002 · xss :4003 · idor :4004 · jwt :4005 · api :4006 · rbac :4007
+| Lab | Port | Challenge |
+|-----|------|-----------|
+| auth | 4001 | Weak Authentication |
+| nosql-injection | 4002 | NoSQL Injection |
+| xss | 4003 | XSS |
+| idor | 4004 | IDOR |
+| jwt | 4005 | JWT Security |
+| api-security | 4006 | API Misconfig |
+| rbac | 4007 | Broken RBAC |
+| — | — | Final Security Core |
 
----
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Architecture](docs/architecture.md) | High-level system design |
-| [Database](docs/database.md) | MongoDB schemas & indexes |
-| [API](docs/api.md) | REST API specification |
-| [UI/UX](docs/ui-ux.md) | Design system & page layouts |
-| [3D Architecture](docs/3d-architecture.md) | Three.js / R3F scene design |
-| [Security Model](docs/security.md) | Platform + lab security boundaries |
-| [Challenges](docs/challenges.md) | Challenge structure & roadmap |
-| [Implementation Plan](docs/implementation-plan.md) | Phase-by-phase plan |
-
----
-
-## Tech Stack
-
-**Frontend:** React · TypeScript · Vite · Tailwind · Zustand · React Three Fiber · Framer Motion · GSAP  
-
-**Backend:** Node.js · Express · TypeScript · MongoDB · Mongoose · JWT · Argon2 · Zod · Helmet · Pino  
-
-**Labs:** Isolated Docker containers  
-
-**Testing:** Vitest · React Testing Library · Supertest · Playwright  
-
----
-
-## Security Notice
-
-Intentionally vulnerable labs are **educational only**. They run in isolated environments with fake data and must never be exposed publicly without strong isolation. The main platform itself is built to modern security standards.
-
----
-
-## Quick Start (After Phase 1)
+## Quick start
 
 ```bash
-docker compose up --build
+docker compose up mongodb -d
+cd backend && npm install && cp -n .env.example .env && npm run dev
+cd frontend && npm install && npm run dev
 ```
 
----
+Labs:
+
+```bash
+docker compose --profile labs up
+# or: cd labs/auth && npm i && npm start
+```
+
+## Security boundary
+
+- **Platform** hardened (Helmet, rate limits, validation, hashed secrets).
+- **Labs** intentionally vulnerable, fake data, isolated ports / Compose profile.
+- Do not publish labs on the public internet without isolation.
+
+## Docs
+
+See `docs/` for architecture, API, database, security, UI/UX, 3D, challenges.
 
 ## License
 
-Educational / open-source intended.
+Educational / portfolio use. Lab code must remain clearly marked vulnerable.
