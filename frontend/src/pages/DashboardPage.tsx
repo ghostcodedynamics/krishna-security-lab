@@ -1,7 +1,16 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Shield, LogOut, Trophy, Target, Zap } from 'lucide-react';
-import { Button, Card, CardHeader, CardTitle, CardDescription, ProgressBar, Badge } from '@/components/ui';
+import { Shield, LogOut, Trophy, Target, Zap, Globe, Terminal as TerminalIcon } from 'lucide-react';
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  ProgressBar,
+  Badge,
+  Terminal,
+} from '@/components/ui';
 import { useAuthStore } from '@/stores/authStore';
 
 export default function DashboardPage() {
@@ -14,7 +23,6 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* Top nav */}
       <header className="border-b border-slate-800/80 bg-bg-secondary/50 backdrop-blur-sm sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-gold-light">
@@ -73,14 +81,14 @@ export default function DashboardPage() {
               </div>
             </Card>
             <Card hover>
-              <div className="flex items-center gap-3">
-                <Badge variant="gold">Novice</Badge>
-              </div>
+              <Badge variant="gold" size="md">
+                Novice
+              </Badge>
               <p className="text-xs text-slate-400 mt-2">Current rank</p>
             </Card>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-6 lg:grid-cols-2 mb-8">
             <Card variant="elevated">
               <CardHeader>
                 <CardTitle>XP Progress</CardTitle>
@@ -92,18 +100,32 @@ export default function DashboardPage() {
             <Card variant="elevated">
               <CardHeader>
                 <CardTitle>Current Mission</CardTitle>
-                <CardDescription>Start with Authentication challenges</CardDescription>
+                <CardDescription>Explore the Security Temple and prepare for challenges</CardDescription>
               </CardHeader>
               <div className="flex flex-wrap gap-3">
-                <Button variant="primary" size="md" disabled>
-                  Enter World (Phase 6)
-                </Button>
+                <Link to="/world">
+                  <Button variant="primary" size="md">
+                    <Globe className="w-4 h-4" />
+                    Enter World
+                  </Button>
+                </Link>
                 <Button variant="secondary" size="md" disabled>
-                  View Challenges (Phase 7)
+                  Challenges (soon)
                 </Button>
               </div>
             </Card>
           </div>
+
+          <Card variant="glass" className="mb-4">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TerminalIcon className="w-5 h-5 text-cyan-accent" />
+                Lab Terminal
+              </CardTitle>
+              <CardDescription>Type help for commands</CardDescription>
+            </CardHeader>
+            <Terminal className="max-h-64" />
+          </Card>
         </motion.div>
       </main>
     </div>
